@@ -4,6 +4,7 @@
   align-items: center;
   justify-content: center;
   width: 100%;
+  position: relative;
 }
 
 .inputText {
@@ -15,6 +16,11 @@
   border-top-left-radius:  var(--border-radius);;
   border-bottom-left-radius:  var(--border-radius);;
   width: 100%;
+}
+
+.inputText__invalid {
+  border: 0.3rem solid rgb(255, 43, 43);
+  background-color: rgb(253, 241, 241);
 }
 
 .inputText:focus {
@@ -37,4 +43,3 @@
 .button:hover {
   background-color: rgb(51, 51, 51);
 }
-
