@@ -1,8 +1,8 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import styles from './Input.module.css'
 import ipRegex from 'ip-regex'
 import classNames from "classnames"
-import { useSelector,useDispatch } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import { update } from '../../features/ipGeolocator/ipGeolocatorSlice'
 import { useGetIpInfoQuery } from '../../app/services/ipApi'
 
@@ -16,6 +16,11 @@ export default function Input() {
   const placeholder = "Search for any IP address or domain";
   const [inputText, setInputText] = useState('');
   const [valid, setValid] = useState(true);
+  const [formClassNames, setFormClassNames] = useState([styles.form]);
+
+  const triggerShake = () => {
+    setFormClassNames([styles.form, styles.shake]);
+  }
 
   const isInputValid = (input) => {
     const domainRegExp = /^(([a-zA-Z]{1})|([a-zA-Z]{1}[a-zA-Z]{1})|([a-zA-Z]{1}[0-9]{1})|([0-9]{1}[a-zA-Z]{1})|([a-zA-Z0-9][a-zA-Z0-9-_]{1,61}[a-zA-Z0-9]))\.([a-zA-Z]{2,6}|[a-zA-Z0-9-]{2,30}\.[a-zA-Z]{2,3})$/;
@@ -30,11 +35,17 @@ export default function Input() {
 
   const submitHandler = (e) => {
     e.preventDefault();
+    if (!valid) {
+      triggerShake();
+      return;
+    }
     dispatch(update(inputText));
   }
 
   return (
-    <form className={styles.form}>
+    <form
+      onAnimationEnd={() => setFormClassNames([styles.form])}
+      className={formClassNames.join(' ')}>
       <input
         required
         placeholder={placeholder}
@@ -44,7 +55,7 @@ export default function Input() {
         })}
         value={inputText} type='text'
         onChange={changeHandler} />
-      <button disabled={!valid || loading} className={classNames({
+      <button disabled={loading} className={classNames({
         [styles.button]: true,
         [styles.button__loading]: loading,
       })} onClick={submitHandler}>
