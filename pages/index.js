@@ -3,6 +3,7 @@ import styles from '../styles/Home.module.css'
 import Input from '../components/Input/Input'
 import Info from '../components/Info/Info'
 import dynamic from "next/dynamic";
+import GithubLink from '../components/GithubLink/GithubLink';
 
 export default function Home() {
   const Map = dynamic(() => import("../components/Map/Map"), {
@@ -25,6 +26,9 @@ export default function Home() {
           <h1 className={styles.heading}>IP Address Tracker</h1>
           <div className={styles.input}>
             <Input />
+          </div>
+          <div >
+            <GithubLink />
           </div>
           <div className={styles.info}>
             <Info />
